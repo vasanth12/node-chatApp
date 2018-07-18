@@ -1,24 +1,38 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
-const socketIO = require('socket.io');
+var socketIO = require('socket.io');
+const port = process.env.PORT || 3000;
 
 const publicPath = path.join(__dirname, '../public');
-const port = process.env.PORT || 3000;
 var app = express();
 var server = http.createServer(app);
-var io = socketIO(server); //communicate b/w server and client
+var io = socketIO(server);
 
 app.use(express.static(publicPath));
 
 io.on('connection', (socket)=>{
-  console.log("New user connected");
+  console.log('new user connected');
+
+  socket.emit('serverMessage', {
+    from:"vasanth2812",
+    text:"Hey",
+    createAt :123
+  });
+
+  socket.on('createMessage',(message)=>{
+    console.log('client-message' + message);
+    io.emit('newMessage',{
+      from:message.from,
+      text:message.text,
+      createAt:new Date().getTime()
+    });
+  });
 
   socket.on('disconnect', ()=>{
-    console.log("disconnect to the server");
+    console.log('user disconnected from server');
   });
-  
-}); //register an new event listener connection is new event it listen new connection
+});
 server.listen(port, ()=>{
-  console.log(`server is up on the port ${port}`);
+  console.log(`server is up on port ${port}`);
 });

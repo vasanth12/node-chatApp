@@ -5,18 +5,8 @@
     <meta charset="utf-8">
   </head>
   <body>
-        <h1>Welcome to chat App</h1>
+        <p>Welcome to chat App</p>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io(); //io method open up connection and keep up that connection //create the connection and store in socket variable
-
-    socket.on('connect',()=>{
-      console.log('connected to server');
-    });
-
-    socket.on('disconnect', ()=>{
-      console.log("disconnect to the server");
-    });
-  </script>
+  <script src="js/index.js"></script>
   </body>
 </html>
