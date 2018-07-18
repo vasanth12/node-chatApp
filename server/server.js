@@ -14,11 +14,17 @@ app.use(express.static(publicPath));
 io.on('connection', (socket)=>{
   console.log('new user connected');
 
-  socket.emit('serverMessage', {
-    from:"vasanth2812",
-    text:"Hey",
-    createAt :123
+  socket.emit('newMessage', {
+    from:"Admin",
+    text:"Welcome to Chat Ap",
+    createAt : new Date().getTime()
   });
+
+   socket.broadcast.emit('newMessage',{
+     from:"Admin",
+     text:"new User Joined",
+     createAt:new Date().getTime()
+   });
 
   socket.on('createMessage',(message)=>{
     console.log('client-message' + message);
